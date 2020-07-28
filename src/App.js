@@ -1,9 +1,19 @@
 // import d3 package
 import * as d3 from 'd3';
-import { transition } from 'd3';
 
 // target the container node, this will be the frame for the entier application
 const container = d3.select("#container")
+const baseTemp = 8.66;
+// create a title for the app
+container
+  .append('h2')
+  .attr('id', 'title')
+  .text("Monthly Global Land-Surface Temperature")
+
+container
+  .append('p')
+  .attr('id', 'description')
+  .text(`1753 - 2015: base temperature ${baseTemp}℃`)
 
 /*============================================== 
   DEFINE THE ATTRIBURES
@@ -32,11 +42,7 @@ const svgGroups = canvas
   .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
 
-// create a title for the app
-container
-  .append('h2')
-  .attr('id', 'title')
-  .text("Monthly Global Land-Surface Temperature")
+
 
 
 
