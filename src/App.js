@@ -42,19 +42,34 @@ const svgGroups = canvas
   .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
 
+/*============================================== 
+  DEFINE SCALES
+===============================================*/
+const xScale = d3
+  .scaleTime()
+  .range([1754, 2015])
+
+const yScale = d3
+  .scaleTime()
+  .range([1, 12])
+  
 
 
 
-
-
-
+/*============================================== 
+  CHART DRAWER FUNCTION
+===============================================*/
 const drawHeatMap = data => {
-  return
+    
 }
 
+/*============================================== 
+  GRAB DATA WITH FETCH API
+===============================================*/
 const api_url = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json";
 fetch( api_url )
 .then( res => res.json())
-.then( data => {
+.then( json => {
+  const data = json["monthlyVariance"]
   drawHeatMap(data)
 })
