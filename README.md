@@ -9,6 +9,6 @@ Visualizing Monthly Global Land-Surface Temperature with D3
 Opn the project in [Codepen](https://codepen.io/Darbaz/pen/bGEyLPQ)
 
 ### Usage
-**dev** to run the dev env.
+`npm run dev` to run the dev env.
 
 
