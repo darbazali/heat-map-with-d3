@@ -65,7 +65,6 @@ const height = 500 - margin.top - margin.bottom;
 // crate the svg canvas
 const canvas = container
   .append('svg')
-  // .attr('viewBox', `0 0 ${width + margin.right + margin.left} ${height + margin.top + margin.bottom}`);
   .attr('width', width + margin.right + margin.left)
   .attr('height', height + margin.top + margin.bottom)
 
@@ -94,6 +93,9 @@ const xScale = d3
 const parseTimeYear = d3.timeParse("%Y");
 
 
+/*============================================== 
+  CREAT MONTH FROM MONGTH NUMBER
+===============================================*/
 const getMonth = d => {
   switch (d) {
     case 0: return months[0];
@@ -113,7 +115,9 @@ const getMonth = d => {
   }
 }
 
-
+/*============================================== 
+  FILL THE CELL BASED ON TEMP VALUE
+===============================================*/
 const fillCell = value => {
   if ( value < 2.8 ) {
     return colors[0]
@@ -169,8 +173,8 @@ const drawHeatMap = data => {
 
   // format data
   data.forEach(d => {
-    d["year"] = parseTimeYear(d["year"])
-    d["month"] = d["month"] - 1;
+    d.year = parseTimeYear(d.year)
+    d.month = d.month - 1;
     d.temp = Number.parseFloat(baseTemp + d.variance).toFixed(1);
   });
 
@@ -180,7 +184,7 @@ const drawHeatMap = data => {
   X Axis
   ===============================================*/
   xScale
-    .domain(d3.extent( data, d => d["year"]))
+    .domain(d3.extent( data, d => d.year))
 
   // create Axes
   const xAxis = d3
