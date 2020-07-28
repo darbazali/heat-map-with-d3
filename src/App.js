@@ -1,7 +1,7 @@
 // import d3 package
 import * as d3 from 'd3';
-import { axisBottom } from 'd3';
 import { fillCell } from './fillCell';
+import { drawTooltip } from './drawTooltip';
 
 // target the container node, this will be the frame for the entier application
 const container = d3.select("#container")
@@ -127,6 +127,12 @@ const drawHeatMap = data => {
       .attr('id', 'y-axis')
       .call(yAxis)
 
+      /*============================================== 
+        TOOLTIP
+      ===============================================*/
+      const tooltip = container
+        .append('div')
+        .attr('id', 'tooltip');
 
      /*============================================== 
       PLOT CELLS
@@ -136,6 +142,13 @@ const drawHeatMap = data => {
       .data(data)
       .enter()
       .append('rect')
+
+      // mouse events
+      .on('mouseenter', d => drawTooltip(d, tooltip))
+      .on('mouseout', () => {
+        tooltip
+          .style('opacity', 0)
+      })
 
       // data attributes
       .attr('data-month', d => d.month)
