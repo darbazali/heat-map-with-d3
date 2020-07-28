@@ -1,5 +1,6 @@
 // import d3 package
 import * as d3 from 'd3';
+import { axisBottom } from 'd3';
 
 // target the container node, this will be the frame for the entier application
 const container = d3.select("#container")
@@ -56,6 +57,10 @@ const svgGroups = canvas
   .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
 
+
+
+
+
 /*============================================== 
   DEFINE SCALES
 ===============================================*/
@@ -71,6 +76,11 @@ const yScale = d3
 const parseTimeYear = d3.timeParse("%Y");
 const parseTimeMonth = d3.timeParse("%m")
 
+
+
+/*============================================== 
+  CELL COLORIZER, Filles a cell based on temp
+===============================================*/
 const fillCell = temp => {
   temp = parseFloat(temp)
   if ( temp <= 3 ) {
@@ -83,7 +93,7 @@ const fillCell = temp => {
     return "#99BCE5"
   } else if ( temp <= 7 ) {
     return "#DEEDFF"
-  } else if ( temp <= 7 ) {
+  } else if ( temp <= 8 ) {
     return "#F7F0CC"
   } else if ( temp <= 9 ) {
     return "#F0D0A3"
@@ -191,3 +201,52 @@ fetch( api_url )
   const data = json.monthlyVariance
   drawHeatMap(data)
 })
+
+
+
+/*============================================== 
+  DEFINE LEGEND
+===============================================*/
+const legendData = [ 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+const legendWidth = 400, legendHeight = 40, l_margin = 40;
+const lWidth = legendWidth / legendData.length;
+const legend = container
+  .append('svg')
+  .attr('id', 'legend')
+  .attr('width', legendWidth + l_margin)
+  .attr('height', legendHeight + l_margin);
+
+
+const l_group = legend
+  .append('g')
+  .attr('transform', `translate(${l_margin / 2}, ${l_margin / 2})`)
+
+
+l_group.selectAll('rect')
+  .data(legendData)
+  .enter()
+  .append('rect')
+
+  .attr('x', (d, i) => i * lWidth)
+  .attr('y', 0)
+
+  .attr('height', legendHeight)
+  .attr('width', lWidth)
+
+  .attr('fill', d => fillCell(d))
+
+
+const lScale = d3
+  .scaleLinear()
+  .range([0, legendWidth])
+  .domain([3, 13])
+
+const lAxis = d3
+  .axisBottom(lScale)
+
+
+l_group
+  .append('g')
+  .attr('transform', `translate(0, ${legendHeight})`)
+  .call(lAxis)
+  
