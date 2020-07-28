@@ -72,8 +72,27 @@ const parseTimeYear = d3.timeParse("%Y");
 const parseTimeMonth = d3.timeParse("%m")
 
 const fillCell = temp => {
-  if ( temp < 3 ) {
-    return ""
+  temp = parseFloat(temp)
+  if ( temp <= 3 ) {
+    return "#205695"
+  } else if ( temp <= 4 ) {
+    return "#2A6DBA"
+  } else if ( temp <= 5 ) {
+    return "#5D96D8"
+  } else if ( temp <= 6 ) {
+    return "#99BCE5"
+  } else if ( temp <= 7 ) {
+    return "#DEEDFF"
+  } else if ( temp <= 7 ) {
+    return "#F7F0CC"
+  } else if ( temp <= 9 ) {
+    return "#F0D0A3"
+  } else if ( temp <= 10 ) {
+    return "#E0B06D"
+  } else if ( temp <= 11 ) {
+    return "#CC8726"
+  } else if ( temp <= 12 ) {
+    return "#985E0D"
   }
 }
 
@@ -88,6 +107,8 @@ const drawHeatMap = data => {
     d["month"] = d["month"] - 1;
     d.temp = Number.parseFloat(baseTemp + d.variance).toFixed(1);
   });
+
+  const barWidth = width / (data.length / 12)
 
   /*============================================== 
   X Axis
@@ -141,13 +162,15 @@ const drawHeatMap = data => {
 
       // set coordinates
       .attr('x', d => xScale(d.year))
-      .attr('y', d => d.month * 30)
+      .attr('y', d => d.month * ( height / 12))
 
       // set size
-      .attr('width', 2)
+      .attr('width', barWidth)
       .attr('height', (height / 12))
 
       .attr('class', 'cell')
+
+      .attr('fill', d => fillCell(d.temp))
 }
 
 
