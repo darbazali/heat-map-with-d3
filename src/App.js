@@ -28,18 +28,18 @@ const margin = {
 }
 
 // define dimentions for the chart
-const width = 800 - margin.left - margin.right;
+const width = 1200 - margin.left - margin.right;
 const height = 400 - margin.top - margin.bottom;
 
 // crate the svg canvas
 const canvas = container
   .append('svg')
-  .attr('viewBox', `0 0 ${width + margin.right + margin.left} ${height + margin.top + margin.bottom}`)
+  .attr('viewBox', `0 0 ${width + margin.right + margin.left} ${height + margin.top + margin.bottom}`);
 
 // create a group for the svg elements
 const svgGroups = canvas
   .append('g')
-  .attr('transform', `translate(${margin.left}, ${margin.top})`)
+  .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
 
 /*============================================== 
@@ -47,20 +47,42 @@ const svgGroups = canvas
 ===============================================*/
 const xScale = d3
   .scaleTime()
-  .range([1754, 2015])
+  .range([0, width])
 
 const yScale = d3
   .scaleTime()
-  .range([1, 12])
+  .range([0, height])
   
 
-
+const parseTimeYear = d3.timeParse("%Y");
 
 /*============================================== 
   CHART DRAWER FUNCTION
 ===============================================*/
 const drawHeatMap = data => {
-    
+
+  // format data
+  data.forEach(d => {
+    d["year"] = parseTimeYear(d["year"])
+  });
+
+  // create domains
+  xScale
+    .domain(d3.extent( data, d => d["year"]))
+
+
+  // create Axes
+  const xAxis = d3
+    .axisBottom(xScale)
+    .ticks(d3.timeYear.every(10))
+
+  svgGroups
+    .append('g')
+    .attr('id', 'x-axis')
+    .attr('transform', `translate(0, ${height})`)
+    .call(xAxis)
+
+
 }
 
 /*============================================== 
