@@ -44,13 +44,15 @@ const margin = {
 }
 
 // define dimentions for the chart
-const width = 1200 - margin.left - margin.right;
-const height = 400 - margin.top - margin.bottom;
+const width = 1600 - margin.left - margin.right;
+const height = 500 - margin.top - margin.bottom;
 
 // crate the svg canvas
 const canvas = container
   .append('svg')
-  .attr('viewBox', `0 0 ${width + margin.right + margin.left} ${height + margin.top + margin.bottom}`);
+  // .attr('viewBox', `0 0 ${width + margin.right + margin.left} ${height + margin.top + margin.bottom}`);
+  .attr('width', width + margin.right + margin.left)
+  .attr('height', height + margin.top + margin.bottom)
 
 // create a group for the svg elements
 const svgGroups = canvas
