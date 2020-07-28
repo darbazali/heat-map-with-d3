@@ -7,19 +7,19 @@ import { drawTooltip } from './drawTooltip';
 const container = d3.select("#container")
 const baseTemp = 8.66;
 const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  'June',
-  'July',
-  'Augast',
-  'September',
-  'November',
-  'October',
-  'Desember'
-]
+  "January", 
+  "February", 
+  "March", 
+  "April", 
+  "May", 
+  "June", 
+  "July", 
+  "August", 
+  "September", 
+  "October", 
+  "November", 
+  "December"
+];
 // create a title for the app
 container
   .append('h2')
@@ -69,13 +69,13 @@ const xScale = d3
   .scaleTime()
   .range([0, width])
 
-const yScale = d3
-  .scaleTime()
-  .range([0, height])
+  const yScale = d3
+  .scaleBand()
+  .range([0, height]);
   
 
 const parseTimeYear = d3.timeParse("%Y");
-const parseTimeMonth = d3.timeParse("%m")
+
 
 
 
@@ -114,10 +114,13 @@ const drawHeatMap = data => {
     Y Axis
     ===============================================*/
     yScale
-      .domain(d3.extent( data, d => d["month"]))
+      .domain(months)
+
     
     const yAxis = d3
       .axisLeft(yScale)
+      // .tickValues(yScale.domain())
+      
 
 
       
@@ -170,12 +173,7 @@ const drawHeatMap = data => {
 }
 
 
-/* 
 
-  "year": 1754,
-  "month": 2,
-  "variance": -4.175
-*/
 
 /*============================================== 
   GRAB DATA WITH FETCH API
