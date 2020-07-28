@@ -1,6 +1,6 @@
 // import d3 package
 import * as d3 from 'd3';
-import { fillCell } from './fillCell';
+// import { fillCell } from './fillCell';
 
 // target the container node, this will be the frame for the entier application
 const container = d3.select("#container")
@@ -19,6 +19,22 @@ const months = [
   "November", 
   "December"
 ];
+
+const colors = [
+ '#154474',
+ '#3168A0',
+ '#5D8EBF',
+ '#85AED8',
+ '#DDEDFD',
+ '#F7E9BC',
+ '#F8D19C',
+ '#DDAE70',
+ '#C7914A',
+ '#A86F24',
+ '#7C4C0E'
+]
+
+
 // create a title for the app
 container
   .append('h2')
@@ -94,6 +110,33 @@ const getMonth = d => {
     case 11: return months[11];
     case 12: return months[12];
     default: return
+  }
+}
+
+
+const fillCell = value => {
+  if ( value < 2.8 ) {
+    return colors[0]
+  } else if ( value < 3.9 ) {
+    return colors[1]
+  } else if ( value < 5.0 ) {
+    return colors[2]
+  } else if ( value < 6.1 ) {
+    return colors[3]
+  } else if ( value < 7.2 ) {
+    return colors[4]
+  } else if ( value < 8.3 ) {
+    return colors[5]
+  } else if ( value < 9.5) {
+    return colors[6]
+  } else if ( value < 10.6 ) {
+    return colors[7]
+  } else if ( value < 11.7) {
+    return colors[8]
+  } else if ( value < 12.8 ) {
+    return colors[9]
+  } else if ( value >= 12.8 ) {
+    return colors[10]
   }
 }
 
@@ -231,7 +274,18 @@ fetch( api_url )
 /*============================================== 
   DEFINE LEGEND
 ===============================================*/
-const legendData = [ 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+const legendData = [ 
+  2.8,
+  3.9,
+  5.0,
+  6.1,
+  7.2,
+  8.3,
+  9.5,
+  10.6,
+  11.7,
+  12.8
+]
 const legendWidth = 400, legendHeight = 40, l_margin = 40;
 const lWidth = legendWidth / legendData.length;
 const legend = container
@@ -263,7 +317,7 @@ l_group.selectAll('rect')
 const lScale = d3
   .scaleLinear()
   .range([0, legendWidth])
-  .domain([3, 13])
+  .domain(d3.extent(legendData))
 
 const lAxis = d3
   .axisBottom(lScale)
